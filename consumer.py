@@ -1,6 +1,9 @@
 import pika
 import time
 import threading
+import csv
+import plotly.express as px
+import pandas as pd
 
 
 class Job:
@@ -43,10 +46,23 @@ class Server:
 
         print(f"Resources used: {self.cur_used_res} | Resources available: {self.MAX_RESOURCES - self.cur_used_res}")
 
+        if len(self.scheduled) % 20 == 0:
+            field_names = ["Task", "Start", "Finish", "Resources"]
+            with open('jobs.csv', mode='w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=field_names)
+
+                writer.writeheader()
+                for job in self.scheduled:
+                    writer.writerow({
+                        "Task": job.id,
+                        "Start": job.start_at,
+                        "Finish": job.end_at,
+                        "Resources": job.resources
+                    })
+
     def handle_job(self, job):
         time.sleep(job.exec_time)
         self.cur_used_res -= job.resources
-
 
     def start(self):
         QUEUE_LOW = 'fila_sdi_baixa'  # 0

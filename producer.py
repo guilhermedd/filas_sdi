@@ -38,7 +38,7 @@ while True:
         channel.basic_publish(exchange='', routing_key=QUEUE_LOW if priority == 0 else QUEUE_HIGH, body=msg)
         print(f"Mensagem enviada: {msg}")
 
-        time.sleep(0.1)
+        time.sleep(0.05)
         
     except Exception:
         print("Falha ao enviar mensagem.")
