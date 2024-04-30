@@ -17,10 +17,11 @@ channel = connection.channel()
 channel.queue_declare(queue=QUEUE_LOW)
 channel.queue_declare(queue=QUEUE_HIGH)
 
-while True:
+auto = int(input("DO you want to create your own jobs (1) or let them be created automatically (2)?\n"))
+while auto > 2 or auto < 1:
     auto = int(input("DO you want to create your own jobs (1) or let them be created automatically (2)?\n"))
-    while auto > 2 or auto < 1:
-        auto = int(input("DO you want to create your own jobs (1) or let them be created automatically (2)?\n"))
+
+while True:
     try:
         if auto == 2:
             execution_time = random.randint(1, MAX_TIME)
