@@ -17,13 +17,19 @@ channel = connection.channel()
 channel.queue_declare(queue=QUEUE_LOW)
 channel.queue_declare(queue=QUEUE_HIGH)
 
-oi = 1 if 1 == 1 else 2
-
 while True:
+    auto = int(input("DO you want to create your own jobs (1) or let them be created automatically (2)?\n"))
+    while auto > 2 or auto < 1:
+        auto = int(input("DO you want to create your own jobs (1) or let them be created automatically (2)?\n"))
     try:
-        execution_time = random.randint(1, MAX_TIME)
-        resources = random.randint(1, MAX_RESOURCES)
-        priority = random.randint(0, 1)
+        if auto == 2:
+            execution_time = random.randint(1, MAX_TIME)
+            resources = random.randint(1, MAX_RESOURCES)
+            priority = random.randint(0, 1)
+        else:
+            execution_time = int(input(f"Execution time (max: {MAX_TIME}):\n"))
+            resources = int(input(f"Resources (max: {MAX_RESOURCES}):\n"))
+            priority = int(input("Priority (1 for high and 0 for low):\n"))
 
         msg = f"{execution_time};{resources};{priority}"
 
